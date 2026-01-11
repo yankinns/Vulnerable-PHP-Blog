@@ -1,0 +1,12 @@
+<?php
+// Создаем тестовые логи
+$log_content = "";
+for ($i = 1; $i <= 20; $i++) {
+    $log_content .= date('Y-m-d H:i:s') . " - User 'admin' accessed page 'page" . $i . ".php'\n";
+}
+
+file_put_contents('access.log', $log_content);
+file_put_contents('error.log', "ERROR: Test error message\nDEBUG: Some debug info\n");
+
+echo "Логи созданы!";
+?>
