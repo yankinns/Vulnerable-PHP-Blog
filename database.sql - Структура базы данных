@@ -1,0 +1,44 @@
+-- Создание базы данных
+CREATE DATABASE IF NOT EXISTS vulnerable_blog;
+USE vulnerable_blog;
+
+-- Таблица пользователей (администраторов)
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Таблица постов
+CREATE TABLE posts (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    author_id INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- Таблица комментариев
+CREATE TABLE comments (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    post_id INT NOT NULL,
+    author_name VARCHAR(100),
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
+);
+
+-- Вставка тестовых данных
+INSERT INTO users (username, password) VALUES 
+('admin', 'admin123'), -- Слабый пароль!
+('editor', 'password123');
+
+INSERT INTO posts (title, content, author_id) VALUES 
+('Первый пост', 'Это содержимое первого поста.', 1),
+('Второй пост', '<script>alert("XSS test")</script> Второй пост.', 2);
+
+INSERT INTO comments (post_id, author_name, content) VALUES 
+(1, 'Василий', 'Отличный пост!'),
+(1, 'Мария', 'Спасибо за информацию. <img src="x" onerror="alert(1)">');
