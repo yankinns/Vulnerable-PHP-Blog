@@ -1,0 +1,16 @@
+vulnerable-php-blog/
+├── index.php
+├── login.php
+├── logout.php
+├── dashboard.php
+├── view_post.php
+├── add_post.php
+├── edit_post.php
+├── delete_post.php
+├── add_comment.php
+├── search.php
+├── upload.php
+├── config.php
+├── database.sql
+├── /uploads/
+└── /backups/
